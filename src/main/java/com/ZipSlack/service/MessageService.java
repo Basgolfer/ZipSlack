@@ -18,8 +18,7 @@ public class MessageService {
     }
 
     public Message addMessage(Message newmessage) {
-        messageRepository.save(newmessage);
-        return newmessage;
+        return messageRepository.save(newmessage);
     }
 
     public Message get(Long id) {

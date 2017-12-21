@@ -4,6 +4,7 @@ import com.ZipSlack.model.Message;
 import com.ZipSlack.service.MessageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,13 +28,15 @@ public class MessageControllerTest {
     @MockBean
     MessageService messageService;
 
-    Message mockMessage = new Message("hey", (long) 1);
+    Message mockMessage = new Message("hey",1L);
+    Message mockMessage1 = new Message("hey",1L);
     String example = "{\"messageID\":1,\"message\":\"hey\",\"timestamp\":\"Tue Dec 19 16:15:31 EST 2017\",\"userId\":null}";
+    String example1 = "{\"messageID\":1,\"message\":\"hello\",\"timestamp\":\"Tue Dec 19 16:15:31 EST 2017\",\"userId\":null}";
 
 
     @Test
     public void create() throws Exception {
-//        Mockito.when(messageService.addMessage(Mockito.any(Message.class))).thenReturn(mockMessage);
+        Mockito.when(messageService.addMessage(Mockito.any(Message.class))).thenReturn(mockMessage);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/chat/messages")
@@ -45,12 +48,13 @@ public class MessageControllerTest {
 
     @Test
     public void getMessage() throws Exception {
-
+        mockMessage.setTimestamp("Tue Dec 19 16:15:31 EST 2017");
         Mockito.when(messageService.get(Mockito.anyLong())).thenReturn(mockMessage);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/chat/messages/1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(example));
+                .andExpect(content().string(example))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -60,17 +64,22 @@ public class MessageControllerTest {
                 .delete("/chat/messages/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void update() throws Exception {
 
-    }
+        Mockito.when(messageService.get(Mockito.anyLong())).thenReturn(mockMessage);
 
-    @Test
-    public void testFindAll() {
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/chat/messages/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(example))
+                .andExpect(status().isOk());
+        //test to see if content has been updated? or just check status from controller?
     }
-
 
 }
