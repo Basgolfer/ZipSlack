@@ -10,8 +10,9 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String name;
     private Long id;
+    private String name;
+
 
     public User(String name) {
         this.name = name;
