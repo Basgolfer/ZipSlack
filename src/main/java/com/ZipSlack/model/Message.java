@@ -1,9 +1,6 @@
 package com.ZipSlack.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,9 +8,17 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private Long messageID;
+
+    @Column
     private String message;
-    private String timestamp;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
+    @Column
     private Long userId;
 
     public Message() {
@@ -30,7 +35,7 @@ public class Message {
         this.messageID = messageID;
         this.message = message;
         this.userId = userId;
-        this.timestamp = new Date().toString();
+        this.creationDate = new Date();
     }
 
     public String getMessage() {
@@ -49,12 +54,12 @@ public class Message {
         this.messageID = messageID;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Long getUserId() {

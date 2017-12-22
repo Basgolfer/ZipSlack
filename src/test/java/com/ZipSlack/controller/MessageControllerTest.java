@@ -48,7 +48,7 @@ public class MessageControllerTest {
 
     @Test
     public void getMessage() throws Exception {
-        mockMessage.setTimestamp("Tue Dec 19 16:15:31 EST 2017");
+        //mockMessage.setCreationDate("Tue Dec 19 16:15:31 EST 2017");
         Mockito.when(messageService.get(Mockito.anyLong())).thenReturn(mockMessage);
 
         mockMvc.perform(MockMvcRequestBuilders
