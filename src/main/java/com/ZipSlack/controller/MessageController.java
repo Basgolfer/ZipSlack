@@ -18,8 +18,7 @@ import java.util.logging.Logger;
 public class MessageController {
 
     Logger logger = Logger.getGlobal();
-    hello
-
+    
     @Autowired
     MessageService messageService;
 
